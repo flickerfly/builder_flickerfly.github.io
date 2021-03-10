@@ -8,9 +8,10 @@ OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/pelicanconf.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
 
-GITHUB_USER_REPO='git@github.com:flickerfly/flickerfly.github.io.git'
+# Configure the external repo as a remote in the builder repo
+# git@github.com:flickerfly/flickerfly.github.io.git
+GITHUB_USER_REMOTE='pages'
 GITHUB_PAGES_BRANCH=gh-pages
-
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -76,7 +77,8 @@ publish:
 
 github: publish
 	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
-	git push origin $(GITHUB_PAGES_BRANCH)
-	git push $(GITHUB_USER_PAGE) $(GITHUB_PAGES_BRANCH):master
+	@echo ""
+	@echo "## Run the following commands"
+	@echo "git push origin $(GITHUB_PAGES_BRANCH) && git push $(GITHUB_USER_REMOTE) $(GITHUB_PAGES_BRANCH):main"
 
 .PHONY: html help clean regenerate serve serve-global devserver publish github
