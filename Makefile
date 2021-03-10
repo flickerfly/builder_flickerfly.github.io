@@ -8,7 +8,8 @@ OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/pelicanconf.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
 
-GITHUB_PAGES_BRANCH=master
+GITHUB_USER_REPO='git@github.com:flickerfly/flickerfly.github.io.git'
+GITHUB_PAGES_BRANCH=gh-pages
 
 
 DEBUG ?= 0
@@ -63,7 +64,6 @@ else
 	$(PELICAN) -l $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT) -b 0.0.0.0
 endif
 
-
 devserver:
 ifdef PORT
 	$(PELICAN) -lr $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -p $(PORT)
@@ -77,6 +77,6 @@ publish:
 github: publish
 	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
 	git push origin $(GITHUB_PAGES_BRANCH)
-
+	git push $(GITHUB_USER_PAGE) $(GITHUB_PAGES_BRANCH):master
 
 .PHONY: html help clean regenerate serve serve-global devserver publish github

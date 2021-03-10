@@ -19,14 +19,14 @@ RUN pip install --upgrade pip && \
 	pip install -r requirements.txt
 
 # only download the pelican-boostrap3 theme 
-RUN mkdir /website/themes \
-&& cd /website/themes \
-&& git init \
-&& git remote add origin -f \
-	https://github.com/getpelican/pelican-themes.git \
-&& git config core.sparseCheckout true \
-&& echo "/pelican-bootstrap3/" >> .git/info/sparse-checkout \
-&& git pull origin master 
+#RUN mkdir /website/themes \
+#&& cd /website/themes \
+#&& git init \
+#&& git remote add origin -f \
+#	https://github.com/getpelican/pelican-themes.git \
+#&& git config core.sparseCheckout true \
+#&& echo "/pelican-bootstrap3/" >> .git/info/sparse-checkout \
+#&& git pull origin master 
 
 # only download the i18n_subsites plugin
 RUN mkdir /website/plugins \
