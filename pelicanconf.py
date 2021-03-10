@@ -36,7 +36,20 @@ DEFAULT_PAGINATION = False
 
 THEME = 'themes/pelican-bootstrap3'
 PLUGIN_PATHS = ['plugins/', ]
-PLUGINS = ['i18n_subsites', ]
+PLUGINS = ['sitemap','i18n_subsites' ]
 JINJA_ENVIRONMENT = {
     'extensions': ['jinja2.ext.i18n'],
+}
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.5,
+        'indexes': 0.5,
+        'pages': 0.5
+    },
+    'changefreqs': {
+        'articles': "monthly",
+        'indexes': "daily",
+        'pages': "monthly"
+    }
 }

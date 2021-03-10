@@ -16,7 +16,7 @@ We push the code outside the container to avoid moving credentials into the cont
 
 ```
 MSYS_NO_PATHCONV=1 docker run --rm -it -p 8000:8000 -e PORT=8000 -v ${PWD}:/website pelican make github
-git push origin gh-pages && git push 'pages' gh-pages:main
+git push origin gh-pages && git push pages gh-pages:main
 ```
 
 # Writing Pages
