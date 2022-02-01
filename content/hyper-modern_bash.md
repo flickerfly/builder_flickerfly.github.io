@@ -9,9 +9,9 @@ Status: Draft
 
 Bash has been around for a long time and for better-or-worse it has resulted in some perhaps awkwardly complex programs. The initial project was probably just "a quick script to glue together" something. It turned out to be so useful that it began to attract more bits and pieces like a black hole and now you must figure out how to manage this monstrosity that can no longer be accurately called a "script". What can you do to keep it under control? 
 
-It turns out that many of the same opportunities afforded to proper development languages like linting and unit tests are at the finger tips of the humble system administrator accidentally become system and platform developer.
+It turns out that many of the same opportunities afforded to proper development languages like linting and unit tests are at the finger tips of the humble system administrator accidentally become system and platform developer. Adding these to the general practice of "clean code" and we can start to recover the ability to manage the project.
 
-As you likely are not afforded the time to simply rewrite this whole thing in Python or some other language, these practices can be used to slowly clean up your script, give you more confidence in your changes and reduce the fear of making changes. Developers talk about "The Strangler Pattern". Basically, when you go in to make a change, keeping these ideas in mind and slowly making iterations moving towards better code will reduce your technical debt slowly, but surely over time and maybe even reduce alert fatique, stress, mental breakdown and divorce. We're all pulling for ya.
+As you likely are not afforded the time to simply rewrite this whole thing in Python or some other language, these practices can be used to slowly clean up your script, give you more confidence in your changes and reduce the fear of making changes. Developers talk about _"The Strangler Pattern"_. Basically, when you go in to make a change, keeping these ideas in mind and slowly making iterations moving towards better code will reduce your technical debt slowly, but surely over time and maybe even reduce alert fatique, stress, mental breakdown and divorce. We're all pulling for ya.
 
 ## Syntax Checking
 
@@ -58,3 +58,34 @@ Linting does the job of syntax checking by nature, but also looks at the style a
 Modern development practice encourage the use of "Unit Testing". This concept has the goal of writing tests that exercise each of your lines of bash.
 
 ## Code Coverage
+
+Code coverage is a great way to quickly get a metric of the quality of your code. [kcov](https://github.com/SimonKagstrom/kcov) will help identify which lines of your code have a test running against them and identify the total percentage of your code that is tested with each build. This can help target where your code is insufficiently tested and bugs are likely to crop up despite your unit tests.
+
+## Inline Documentation
+
+### What to Document
+Generally speaking, code should speak for itself regarding what it does, but sometimes why we do something in a specific way, especially one that seems awkward and round-about, may be an important thing to record. Sometimes, things just aren't as simple as they appear and we may save ourselves the hour of spinning our wheels if we just write a sentence about it.
+
+Therefore, generally speaking, don't write comemnts for the sake of writing comments. If the code says the same thing, your redundancy doesn't provide any help. If you think about the next person looking at this code with the skill you had before you wrote it and they're likely to be confused for any reason then that's a point to write a comment. Often this has to do with why you accomplished the task in the specific way you did. Also, having some basic details about the script at the top can be a helpful way to give a reader context.
+
+### Auto Documentation
+
+As your collection of scripts grows into something bigger, it can become helpful to formalize the documentation a bit. If each script places information about itself in the same place and the same way it becomes more approachable and faster to discover what is going on. Also, generally speaking, documentation that lives with the code tends to be somewhat easier to maintain. The ones making the changes are more likely to find new info.
+
+Also, by standardizing your documentation in the scripts you open up opportunity for automation and publishing that documentation. [`shdoc`](https://github.com/reconquest/shdoc) provides a very simply way to generate Markdown documentation from your documents. You create a simple comment block with certain tagged keywords that identify information about the function that follows. 
+
+These tagged comments would include a simple `# @description`, `# @arg`, `# @example` or `# @exitcode` note. These are very readable in the code, but also can be turned into Markdown documents that are easily created as part of the publish process. It is very likely that your git server already displays Markdown documents nicely.
+
+### Usage Hints (-h)
+
+We're all familiar with the -h option. This is real handy for anyone using your script and the simplest way to get some quick exposure to the scripts basic use. It can be as simple as right at the top checking for `-h` as an argument in `$@` and dumping out a `usage()` function or a more complex `getopts` based workflow, but general convention encourages a function called `usage()` to be what is output when your users request help.
+
+## Development Environment
+
+A formalize development environment can help get someone up and running quickly by reducing the work of getting dependencies resolved for each part of the process. Especially when you have setup many of these tools for maintaining code quality, it can become a problem to keep everyone properly equipped for code management.
+
+One of the easiest ways to manage this is  through the use of Docker containers. You can publish your various test tools as separate Docker containers that the person developing can run to check the various aspects of your code. These containers then also become a foundation for your continuous integration pipeline, a natural expansion of your development environment.
+
+## Continuous Integration
+
+As all these quality improvements come into place, it can become daunting to actually make use of all these tools. This is where pipelines come into play. A continuous integration pipeline can be triggered on each new commit to run all your tools and complain if any problems arise. If problems don't arise, you can automatically merge the changes into your `main` code branch with confidence that your code is going to work. 
